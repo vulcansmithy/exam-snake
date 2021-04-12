@@ -132,17 +132,19 @@ class Sandbox
     snake = Snake.new(0, 0, Snake::FACING_EAST)
     snake.report
 
+    snake.move
+    snake.move
+    snake.move
+    puts "@DEBUG L:#{__LINE__}    #{ap snake}"
+    
     snake.turn_right
-    snake.report
-
-    snake.turn_right
-    snake.report
-
-    snake.turn_right
-    snake.report
-
-    snake.turn_right
-    snake.report
+    puts "@DEBUG L:#{__LINE__}    #{ap snake}"
+    
+    snake.move
+    snake.move
+    snake.move
+    snake.move
+    puts "@DEBUG L:#{__LINE__}    #{ap snake}"
   end
 
 end

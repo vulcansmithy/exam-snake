@@ -31,7 +31,7 @@ class Snake
     when :west       
       self.orientation = FACING_SOUTH 
     end  
-  end 
+  end
   
   def turn_right
     case self.orientation
@@ -44,10 +44,23 @@ class Snake
     when :west       
       self.orientation = FACING_NORTH
     end  
-  end 
+  end
   
   def report
     puts "#{self.x_pos}, #{self.x_pos}, #{self.orientation}"
-  end  
+  end
+  
+  def move
+    case self.orientation
+    when :north
+      self.x_pos += 1 #if self.x_pos < 4
+    when :east
+      self.y_pos += 1 #if self.y_pos < 4
+    when :south
+      self.x_pos -= 1 #if self.x_pos > 0
+    when :west
+      self.y_pos -= 1 #if self.y_pos > 0 
+    end      
+  end 
   
 end 
