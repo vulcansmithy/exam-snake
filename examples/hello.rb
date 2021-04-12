@@ -1,8 +1,11 @@
 #!/usr/bin/env ruby
 
 require "curses"
+require "logger"
 
 def show_message(message)
+  @log.debug "@DEBUG L:#{__LINE__}    MARKED"
+  
   height = 5
   width  = message.length + 6
   top    = (Curses.lines - height) / 2
@@ -16,9 +19,13 @@ def show_message(message)
   win.close
 end
 
+# initialize logger
+@log = Logger.new("./hello-debug.log") 
+
 Curses.init_screen
 begin
-  Curses.crmode
+@log.debug "@DEBUG L:#{__LINE__}    MARKED"
+Curses.crmode
   Curses.setpos((Curses.lines - 1) / 2, (Curses.cols - 11) / 2)
   Curses.addstr("Hit any key")
   Curses.refresh
