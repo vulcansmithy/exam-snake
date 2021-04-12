@@ -15,16 +15,16 @@ class Sandbox
     snake.orientation = Snake::FACING_EAST
     snake.report
 
-    snake.turn_left
+    snake.turn_right
     snake.report
 
-    snake.turn_left
+    snake.turn_right
     snake.report
 
-    snake.turn_left
+    snake.turn_right
     snake.report
 
-    snake.turn_left
+    snake.turn_right
     snake.report
   end
   
