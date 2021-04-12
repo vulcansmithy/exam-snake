@@ -13,8 +13,19 @@ class Sandbox
     snake.x_pos = 0
     snake.y_pos = 0
     snake.orientation = Snake::FACING_EAST
-    
-    puts "@DEBUG L:#{__LINE__}    #{ap snake.inspect}"
+    snake.report
+
+    snake.turn_left
+    snake.report
+
+    snake.turn_left
+    snake.report
+
+    snake.turn_left
+    snake.report
+
+    snake.turn_left
+    snake.report
   end
   
 end

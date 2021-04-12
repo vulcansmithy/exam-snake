@@ -14,4 +14,21 @@ class Snake
   attr_reader :orientation
   attr_writer :orientation
   
+  def turn_left
+    case self.orientation
+    when :north
+      self.orientation = FACING_WEST
+    when :east
+      self.orientation = FACING_NORTH
+    when :south
+      self.orientation = FACING_EAST
+    when :west       
+      self.orientation = FACING_SOUTH 
+    end  
+  end 
+  
+  def report
+    puts "#{self.x_pos}, #{self.x_pos}, #{self.orientation}"
+  end  
+  
 end 
