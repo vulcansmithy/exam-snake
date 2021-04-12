@@ -6,7 +6,7 @@ require "curses"
 require "logger"
 
 # this enable this ruby script to be run from the command line
-Sandbox.new.exp3 if __FILE__ == $PROGRAM_NAME
+Sandbox.new.main if __FILE__ == $PROGRAM_NAME
 
 class Sandbox
   
@@ -87,27 +87,7 @@ class Sandbox
       Curses.close_screen
     end  
   end 
-  
-  def main
-    snake = Snake.new
-    snake.x_pos = 0
-    snake.y_pos = 0
-    snake.orientation = Snake::FACING_EAST
-    snake.report
 
-    snake.turn_right
-    snake.report
-
-    snake.turn_right
-    snake.report
-
-    snake.turn_right
-    snake.report
-
-    snake.turn_right
-    snake.report
-  end
-  
   def exp3
     Curses.init_screen
 #   Curses.curs_set(0)
@@ -147,6 +127,22 @@ class Sandbox
       Curses.close_screen
     end
   end  
-    
   
+  def main
+    snake = Snake.new(0, 0, Snake::FACING_EAST)
+    snake.report
+
+    snake.turn_right
+    snake.report
+
+    snake.turn_right
+    snake.report
+
+    snake.turn_right
+    snake.report
+
+    snake.turn_right
+    snake.report
+  end
+
 end

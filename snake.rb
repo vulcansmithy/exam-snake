@@ -14,6 +14,12 @@ class Snake
   attr_reader :orientation
   attr_writer :orientation
   
+  def initialize(x, y, orientation)
+    self.x_pos = x
+    self.y_pos = y
+    self.orientation = orientation
+  end  
+  
   def turn_left
     case self.orientation
     when :north
