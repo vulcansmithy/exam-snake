@@ -15,8 +15,10 @@ class Snake
   attr_writer :orientation
   
   attr_reader :boundary_x
-  attr_writer :boundary_y
+  attr_writer :boundary_x
   
+  attr_reader :boundary_y
+  attr_writer :boundary_y
   
   def initialize(x, y, orientation, boundary_x, boundary_y)
     self.x_pos = x

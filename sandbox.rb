@@ -6,7 +6,7 @@ require "curses"
 require "logger"
 
 # this enable this ruby script to be run from the command line
-Sandbox.new.main if __FILE__ == $PROGRAM_NAME
+Sandbox.new.exp4 if __FILE__ == $PROGRAM_NAME
 
 class Sandbox
   
@@ -145,5 +145,50 @@ class Sandbox
     snake.move
     snake.move
     puts "@DEBUG L:#{__LINE__}    #{ap snake}"
+  end
+  
+  def exp4
+    
+    Curses.init_screen
+    Curses.curs_set(0)
+    Curses.init_screen
+    Curses.start_color
+    Curses.noecho
+    
+    begin
+      win = Curses.stdscr
+      win.nodelay = true
+      
+      initial_x = win.maxx / 2
+      initial_y = win.maxy / 2
+      snake = Snake.new(initial_x, initial_y, Snake::FACING_EAST, win.maxx, win.maxy)
+      
+      win.setpos(snake.y_pos, snake.x_pos)
+      win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+      win.refresh
+      
+      input = nil    
+      while true
+        input = win.getch
+
+        if input == 'x'
+          @log.debug "@DEBUG L:#{__LINE__}   inputed 'x, exiting...'" 
+          break
+        end     
+            
+        snake.move
+        sleep(1)     
+             
+        win.setpos(snake.x_pos, snake.y_pos)
+        win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+        win.refresh     
+        
+        @log.debug "@DEBUG L:#{__LINE__}   #{snake.x_pos} #{snake.y_pos} #{snake.orientation}" 
+      end 
+      
+      
+    ensure
+      Curses.close_screen
+    end    
   end
 end
