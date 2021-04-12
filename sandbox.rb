@@ -6,33 +6,43 @@ require "curses"
 require "logger"
 
 # this enable this ruby script to be run from the command line
-Sandbox.new.exp2 if __FILE__ == $PROGRAM_NAME
+Sandbox.new.exp3 if __FILE__ == $PROGRAM_NAME
 
 class Sandbox
   
   def initialize
     @log = Logger.new("sandbox-debug.log") 
   end  
-
+  
   def exp1
-    snake = Snake.new
-    snake.x_pos = 0
-    snake.y_pos = 0
-    snake.orientation = Snake::FACING_EAST
-    snake.report
+    Curses.init_screen
+    Window.nodelay = true
+    
+    begin
+      x = Curses.cols / 2  # We will center our text
+      y = Curses.lines / 2
 
-    snake.turn_right
-    snake.report
+      Curses.setpos(y, x)
+      Curses.addstr("Enter key: ")
+      Curses.refresh
+#      result = Curses.getch
+      
+#      @log.debug "@DEBUG L:#{__LINE__}   #{result}"
+#      @log.debug "@DEBUG L:#{__LINE__}   #{Curses::KEY_UP}"
+#      @log.debug "@DEBUG L:#{__LINE__}   #{Curses::KEY_DOWN}"
 
-    snake.turn_right
-    snake.report
+      input = nil    
+      while true
+        result = Curses.getch
 
-    snake.turn_right
-    snake.report
+        @log.debug "@DEBUG L:#{__LINE__}   input='#{input}'"
+        break if result == 'x'
+      end    
 
-    snake.turn_right
-    snake.report
-  end
+    ensure
+      Curses.close_screen
+    end
+  end  
   
   # figure out how to get input from the keyboard
   def exp2
@@ -76,37 +86,67 @@ class Sandbox
     ensure
       Curses.close_screen
     end  
-  end  
-  
+  end 
   
   def main
+    snake = Snake.new
+    snake.x_pos = 0
+    snake.y_pos = 0
+    snake.orientation = Snake::FACING_EAST
+    snake.report
+
+    snake.turn_right
+    snake.report
+
+    snake.turn_right
+    snake.report
+
+    snake.turn_right
+    snake.report
+
+    snake.turn_right
+    snake.report
+  end
+  
+  def exp3
     Curses.init_screen
-    Window.nodelay = true
+#   Curses.curs_set(0)
+    Curses.init_screen
+    Curses.start_color
+#   Curses.noecho
     
     begin
-      x = Curses.cols / 2  # We will center our text
-      y = Curses.lines / 2
-
-      Curses.setpos(y, x)
-      Curses.addstr("Enter key: ")
-      Curses.refresh
-#      result = Curses.getch
+      win = Curses.stdscr
+#     win.nodelay = true
+      @log.debug "@DEBUG L:#{__LINE__}   win.class=#{win.class}"
+    
+    
+      x = win.maxx / 2
+      y = win.maxy / 2
+      win.setpos(y, x)
+      win.addstr("LINE")
       
-#      @log.debug "@DEBUG L:#{__LINE__}   #{result}"
-#      @log.debug "@DEBUG L:#{__LINE__}   #{Curses::KEY_UP}"
-#      @log.debug "@DEBUG L:#{__LINE__}   #{Curses::KEY_DOWN}"
+      win.setpos(y+1, x)
+      win.addstr("#{0x2588.chr('UTF-8')}")
 
-      input = nil    
-      while true
-        result = Curses.getch
+      win.setpos(y+2, x)
+      win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+      win.setpos(y+2, x+1)
+      win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+      win.setpos(y+2, x+2)
+      win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+      win.setpos(y+2, x+3)
+      win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
 
-        @log.debug "@DEBUG L:#{__LINE__}   input='#{input}'"
-        break if result == 'x'
-      end    
+      win.setpos(y+3, x)
+      win.addstr("LINE")
 
+      win.refresh
+      win.getch
     ensure
       Curses.close_screen
     end
   end  
+    
   
 end
