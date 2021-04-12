@@ -1,16 +1,24 @@
-require "curses"
-require "logger"
+require "./sandbox.rb"
+require "./snake.rb"
 
-@log = Logger.new("./logs/sandbox-debug.log") 
+# this enable this ruby script to be run from the command line
+Sandbox.new.main if __FILE__ == $PROGRAM_NAME
 
-Curses.init_screen
-begin
-  nb_lines = Curses.lines
-  nb_cols = Curses.cols
+class Sandbox
+
+  def main
+    snake = Snake.new
+    snake.x_pos = 0
+    snake.y_pos = 0
+    snake.facing = Snake::FACING_EAST
+    
+    puts "@DEBUG L:#{__LINE__}    #{pp snake.inspect}"
+  end
   
-ensure
-  Curses.close_screen
 end
 
-@log.debug "@DEBUG L:#{__LINE__}    Number of rows: #{nb_lines}"
-@log.debug "@DEBUG L:#{__LINE__}    Number of columns: #{nb_cols}"
+
+
+
+
+
