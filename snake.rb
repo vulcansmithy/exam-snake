@@ -1,7 +1,17 @@
 class Snake
   
-  def main
-    puts "@DEBUG L:#{__LINE__}    Running inside main..."
-  end
+  FACING_NORTH = :north 
+  FACING_EAST  = :east
+  FACING_SOUTH = :south
+  FACING_WEST  = :west
   
-end
+  attr_reader :x_pos
+  attr_writer :x_pos  
+  
+  attr_reader :y_pos
+  attr_writer :y_pos
+  
+  attr_reader :orientation
+  attr_writer :orientation
+  
+end 
