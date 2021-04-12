@@ -1,6 +1,8 @@
 require "./sandbox.rb"
 require "./snake.rb"
 
+require "awesome_print"
+
 # this enable this ruby script to be run from the command line
 Sandbox.new.main if __FILE__ == $PROGRAM_NAME
 
@@ -12,7 +14,7 @@ class Sandbox
     snake.y_pos = 0
     snake.facing = Snake::FACING_EAST
     
-    puts "@DEBUG L:#{__LINE__}    #{pp snake.inspect}"
+    puts "@DEBUG L:#{__LINE__}    #{ap snake.inspect}"
   end
   
 end

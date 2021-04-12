@@ -1,12 +1,14 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    awesome_print (1.9.2)
     curses (1.4.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   curses
 
 RUBY VERSION
