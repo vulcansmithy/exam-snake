@@ -11,7 +11,7 @@ class Snake
   attr_reader :y_pos
   attr_writer :y_pos
   
-  attr_reader :facing
-  attr_writer :facing
+  attr_reader :orientation
+  attr_writer :orientation
   
 end 
