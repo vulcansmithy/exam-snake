@@ -10,6 +10,8 @@ Sandbox.new.exp4 if __FILE__ == $PROGRAM_NAME
 
 class Sandbox
   
+  SNAKE_CHAR = "#{0x2588.chr(Encoding::UTF_8)}"
+  
   def initialize
     @log = Logger.new("sandbox-debug.log") 
   end  
@@ -180,7 +182,7 @@ class Sandbox
         sleep(1)     
              
         win.setpos(snake.x_pos, snake.y_pos)
-        win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+        win.addstr(SNAKE_CHAR)
         win.refresh     
         
         @log.debug "@DEBUG L:#{__LINE__}   #{snake.x_pos} #{snake.y_pos} #{snake.orientation}" 
