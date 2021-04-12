@@ -1,4 +1,7 @@
-require 'curses'
+require "curses"
+require "logger"
+
+@log = Logger.new("./logs/sandbox-debug.log") 
 
 Curses.init_screen
 begin
@@ -9,5 +12,5 @@ ensure
   Curses.close_screen
 end
 
-puts "Number of rows: #{nb_lines}"
-puts "Number of columns: #{nb_cols}"
+@log.debug "@DEBUG L:#{__LINE__}    Number of rows: #{nb_lines}"
+@log.debug "@DEBUG L:#{__LINE__}    Number of columns: #{nb_cols}"
