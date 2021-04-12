@@ -14,10 +14,16 @@ class Snake
   attr_reader :orientation
   attr_writer :orientation
   
-  def initialize(x, y, orientation)
+  attr_reader :boundary_x
+  attr_writer :boundary_y
+  
+  
+  def initialize(x, y, orientation, boundary_x, boundary_y)
     self.x_pos = x
     self.y_pos = y
     self.orientation = orientation
+    self.boundary_x = boundary_x
+    self.boundary_y = boundary_y
   end  
   
   def turn_left

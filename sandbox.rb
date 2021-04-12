@@ -146,5 +146,4 @@ class Sandbox
     snake.move
     puts "@DEBUG L:#{__LINE__}    #{ap snake}"
   end
-
 end
