@@ -163,7 +163,7 @@ class Sandbox
       
       initial_x = win.maxx / 2
       initial_y = win.maxy / 2
-      snake = Snake.new(initial_x, initial_y, Snake::FACING_EAST, win.maxx, win.maxy)
+      snake = Snake.new(initial_x, initial_y, Snake::FACING_SOUTH, win.maxx, win.maxy)
       
       win.setpos(snake.y_pos, snake.x_pos)
       win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
@@ -174,73 +174,55 @@ class Sandbox
         input = win.getch
 
         if input == 'x'
-          @log.debug "@DEBUG L:#{__LINE__}   inputed 'x, exiting...'" 
+          @log.debug "@DEBUG L:#{__LINE__}   exiting..."
           break
-        end    
-        
-        case snake.orientation
-        when :north
-          if input == 'a'
+        elsif input == 'w'
+          @log.debug "@DEBUG L:#{__LINE__}   'w' pressed..."
+          case snake.orientation
+          when :east
             snake.turn_left
-          elsif input == 'd'
+          when :west
+            snake.turn_right  
+          end
+
+        elsif input == 's'
+          @log.debug "@DEBUG L:#{__LINE__}   's' pressed..."
+          case snake.orientation
+          when :east
             snake.turn_right
-          else
-            snake.move
-            win.setpos(snake.y_pos, snake.x_pos)
-            win.addstr(SNAKE_CHAR)
-            win.refresh
-          end     
-        when :east
+          when :west
+            snake.turn_left
+          end
           
-          if input == 'w'
-@log.debug "@DEBUG L:#{__LINE__}  x=#{snake.x_pos}, y=#{snake.y_pos} #{snake.orientation}" 
+        elsif input == 'a'
+          @log.debug "@DEBUG L:#{__LINE__}   'a' pressed..."
+          case snake.orientation
+          when :north
             snake.turn_left
-            snake.move
-@log.debug "@DEBUG L:#{__LINE__}  x=#{snake.x_pos}, y=#{snake.y_pos} #{snake.orientation}"   
-            
-@log.debug "@DEBUG L:#{__LINE__}   MARKED" 
-            win.setpos(snake.y_pos, snake.x_pos)
-@log.debug "@DEBUG L:#{__LINE__}   MARKED" 
-            win.addstr(SNAKE_CHAR)
-@log.debug "@DEBUG L:#{__LINE__}   MARKED" 
-            win.refresh
-@log.debug "@DEBUG L:#{__LINE__}   MARKED"             
-            
-          elsif input == 's'
-            snake.turn_right
-          else
-@log.debug "@DEBUG L:#{__LINE__}   ***MARKED***"               
-            snake.move
-            win.setpos(snake.y_pos, snake.x_pos)
-            win.addstr(SNAKE_CHAR)
-            win.refresh
-          end 
-        when :south
-          if input == 'a'
-            snake.turn_right
-          elsif input == 'd'
-            snake.turn_left
-          end 
-        when :west
-          if input == 'w'
-            snake.turn_right
-          elsif input == 's'
-            snake.turn_left
-          end 
-        end    
+          when :south
+            snake.turn_right  
+          end
         
-        sleep(1)
-=begin            
-        snake.move
-        sleep(1)     
-             
-        win.setpos(snake.x_pos, snake.y_pos)
+        elsif input == 'd'
+          @log.debug "@DEBUG L:#{__LINE__}   'd' pressed..."
+          case snake.orientation
+          when :north
+            snake.turn_right
+          when :south
+            snake.turn_left  
+          end
+        else
+          @log.debug "@DEBUG L:#{__LINE__}   unrecognized key pressed..."
+          snake.move
+        end
+
+        win.setpos(snake.y_pos, snake.x_pos)
         win.addstr(SNAKE_CHAR)
-        win.refresh   
-=end
+        win.refresh
+        
+        sleep(0.20)
       end 
-      
-      
+
     ensure
       Curses.close_screen
     end    
