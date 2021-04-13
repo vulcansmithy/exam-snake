@@ -14,4 +14,62 @@ class Snake
   attr_reader :orientation
   attr_writer :orientation
   
+  attr_reader :boundary_x
+  attr_writer :boundary_x
+  
+  attr_reader :boundary_y
+  attr_writer :boundary_y
+  
+  
+  def initialize(x, y, orientation, boundary_x, boundary_y)
+    self.x_pos = x
+    self.y_pos = y
+    self.orientation = orientation
+    self.boundary_x = boundary_x
+    self.boundary_y = boundary_y
+  end  
+  
+  def turn_left
+    case self.orientation
+    when :north
+      self.orientation = FACING_WEST
+    when :east
+      self.orientation = FACING_NORTH
+    when :south
+      self.orientation = FACING_EAST
+    when :west       
+      self.orientation = FACING_SOUTH 
+    end  
+  end
+  
+  def turn_right
+    case self.orientation
+    when :north
+      self.orientation = FACING_EAST
+    when :east
+      self.orientation = FACING_SOUTH 
+    when :south
+      self.orientation = FACING_WEST
+    when :west       
+      self.orientation = FACING_NORTH
+    end  
+  end
+  
+  def report
+    puts "#{self.x_pos}, #{self.x_pos}, #{self.orientation}"
+  end
+  
+  def move
+    case self.orientation
+    when :north
+      self.y_pos -= 1
+    when :east
+      self.x_pos += 1
+    when :south
+      self.y_pos += 1
+    when :west
+      self.x_pos -= 1
+    end      
+  end 
+  
 end 
