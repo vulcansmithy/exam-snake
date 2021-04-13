@@ -20,6 +20,7 @@ class Snake
   attr_reader :boundary_y
   attr_writer :boundary_y
   
+  
   def initialize(x, y, orientation, boundary_x, boundary_y)
     self.x_pos = x
     self.y_pos = y
@@ -61,13 +62,13 @@ class Snake
   def move
     case self.orientation
     when :north
-      self.x_pos += 1 #if self.x_pos < 4
+      self.y_pos -= 1
     when :east
-      self.y_pos += 1 #if self.y_pos < 4
+      self.x_pos += 1
     when :south
-      self.x_pos -= 1 #if self.x_pos > 0
+      self.y_pos += 1
     when :west
-      self.y_pos -= 1 #if self.y_pos > 0 
+      self.x_pos -= 1
     end      
   end 
   

@@ -176,16 +176,68 @@ class Sandbox
         if input == 'x'
           @log.debug "@DEBUG L:#{__LINE__}   inputed 'x, exiting...'" 
           break
-        end     
+        end    
+        
+        case snake.orientation
+        when :north
+          if input == 'a'
+            snake.turn_left
+          elsif input == 'd'
+            snake.turn_right
+          else
+            snake.move
+            win.setpos(snake.y_pos, snake.x_pos)
+            win.addstr(SNAKE_CHAR)
+            win.refresh
+          end     
+        when :east
+          
+          if input == 'w'
+@log.debug "@DEBUG L:#{__LINE__}  x=#{snake.x_pos}, y=#{snake.y_pos} #{snake.orientation}" 
+            snake.turn_left
+            snake.move
+@log.debug "@DEBUG L:#{__LINE__}  x=#{snake.x_pos}, y=#{snake.y_pos} #{snake.orientation}"   
             
+@log.debug "@DEBUG L:#{__LINE__}   MARKED" 
+            win.setpos(snake.y_pos, snake.x_pos)
+@log.debug "@DEBUG L:#{__LINE__}   MARKED" 
+            win.addstr(SNAKE_CHAR)
+@log.debug "@DEBUG L:#{__LINE__}   MARKED" 
+            win.refresh
+@log.debug "@DEBUG L:#{__LINE__}   MARKED"             
+            
+          elsif input == 's'
+            snake.turn_right
+          else
+@log.debug "@DEBUG L:#{__LINE__}   ***MARKED***"               
+            snake.move
+            win.setpos(snake.y_pos, snake.x_pos)
+            win.addstr(SNAKE_CHAR)
+            win.refresh
+          end 
+        when :south
+          if input == 'a'
+            snake.turn_right
+          elsif input == 'd'
+            snake.turn_left
+          end 
+        when :west
+          if input == 'w'
+            snake.turn_right
+          elsif input == 's'
+            snake.turn_left
+          end 
+        end    
+        
+        sleep(1)
+=begin            
         snake.move
         sleep(1)     
              
         win.setpos(snake.x_pos, snake.y_pos)
         win.addstr(SNAKE_CHAR)
-        win.refresh     
-        
-        @log.debug "@DEBUG L:#{__LINE__}   #{snake.x_pos} #{snake.y_pos} #{snake.orientation}" 
+        win.refresh   
+=end
       end 
       
       
