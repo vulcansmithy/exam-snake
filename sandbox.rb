@@ -160,10 +160,11 @@ class Sandbox
     begin
       win = Curses.stdscr
       win.nodelay = true
+      win.keypad = true
       
       initial_x = win.maxx / 2
       initial_y = win.maxy / 2
-      snake = Snake.new(initial_x, initial_y, Snake::FACING_SOUTH, win.maxx, win.maxy)
+      snake = Snake.new(initial_x, initial_y, Snake::FACING_EAST, win.maxx, win.maxy)
       
       win.setpos(snake.y_pos, snake.x_pos)
       win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
@@ -173,7 +174,7 @@ class Sandbox
       while true
         input = win.getch
 
-        if input == 'x'
+        if input == 27
           @log.debug "@DEBUG L:#{__LINE__}   exiting..."
           break
         elsif input == 'w'
@@ -211,12 +212,22 @@ class Sandbox
           when :south
             snake.turn_left  
           end
+        elsif input == Curses::Key::LEFT
+          @log.debug "@DEBUG L:#{__LINE__}   Curses::Key::LEFT..."  
         else
-          @log.debug "@DEBUG L:#{__LINE__}   unrecognized key pressed..."
-          snake.move
+          @log.debug "@DEBUG L:#{__LINE__}   unrecognized key #{input} pressed..."
+#          snake.move
         end
 
+        snake.move
         win.setpos(snake.y_pos, snake.x_pos)
+        
+        
+        if win.inch != 32
+          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
+          exit
+        end  
+        
         win.addstr(SNAKE_CHAR)
         win.refresh
         
