@@ -13,7 +13,7 @@ class Sandbox
   SNAKE_CHAR = "#{0x2588.chr(Encoding::UTF_8)}"
   
   def initialize
-    @log = Logger.new("sandbox-debug.log") 
+    @log = Logger.new("./logs/sandbox-debug.log") 
   end  
   
   def exp1
@@ -172,6 +172,7 @@ class Sandbox
 
       input = nil    
       while true
+        crash = false
         input = win.getch
 
         if input == 27
@@ -212,28 +213,26 @@ class Sandbox
           when :south
             snake.turn_left  
           end
-        else
-          @log.debug "@DEBUG L:#{__LINE__}   unrecognized key #{input} pressed..."
         end
 
         snake.move
         win.setpos(snake.y_pos, snake.x_pos)
 
-        if win.inch != 32
-          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
-          exit
-        elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 2
-          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
-          exit
-        elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > win.maxx - 2
-          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
-          exit
-        elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > win.maxy - 2
-          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
-          exit
-        elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 2
-          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
-          exit
+        crash = if win.inch != 32
+            true
+          elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 2
+            true
+          elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > win.maxx - 2
+            true
+          elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > win.maxy - 2
+            true
+          elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 2
+            true
+          end
+        
+        if crash
+          @log.debug "@DEBUG L:#{__LINE__}   Snake crashed..."
+          exit 
         end
 
         win.addstr(SNAKE_CHAR)
