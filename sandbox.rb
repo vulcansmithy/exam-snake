@@ -158,6 +158,7 @@ class Sandbox
     
     begin
       win = Curses.stdscr
+      win.box("|", "-")
 
       win.nodelay = true
       win.keypad = true
@@ -220,13 +221,13 @@ class Sandbox
 
         crash = if win.inch != 32
             true
-          elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 2
+          elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 1
             true
-          elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > win.maxx - 2
+          elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > win.maxx - 1
             true
-          elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > win.maxy - 2
+          elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > win.maxy - 1
             true
-          elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 2
+          elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 1
             true
           end
         
