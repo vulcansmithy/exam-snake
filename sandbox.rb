@@ -219,6 +219,7 @@ class Sandbox
         snake.move
         win.setpos(snake.y_pos, snake.x_pos)
 
+=begin
         crash = if win.inch != 32
             true
           elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 1
@@ -230,7 +231,8 @@ class Sandbox
           elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 1
             true
           end
-        
+=end
+        crash = snake_crashed?(snake, win)  
         if crash
           @log.debug "@DEBUG L:#{__LINE__}   Snake crashed..."
           exit 
@@ -246,4 +248,20 @@ class Sandbox
       Curses.close_screen
     end
   end
+  
+  def snake_crashed?(snake, window)
+    result = if window.inch != 32
+      true
+    elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 1
+      true
+    elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > window.maxx - 1
+      true
+    elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > window.maxy - 1
+      true
+    elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 1
+      true
+    else
+      false  
+    end
+  end  
 end
