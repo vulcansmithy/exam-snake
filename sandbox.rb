@@ -150,7 +150,6 @@ class Sandbox
   end
   
   def exp4
-    
     Curses.init_screen
     Curses.curs_set(0)
     Curses.init_screen
@@ -159,17 +158,18 @@ class Sandbox
     
     begin
       win = Curses.stdscr
+
       win.nodelay = true
       win.keypad = true
-      
+
       initial_x = win.maxx / 2
       initial_y = win.maxy / 2
       snake = Snake.new(initial_x, initial_y, Snake::FACING_EAST, win.maxx, win.maxy)
-      
+
       win.setpos(snake.y_pos, snake.x_pos)
       win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
       win.refresh
-      
+
       input = nil    
       while true
         input = win.getch
@@ -177,7 +177,7 @@ class Sandbox
         if input == 27
           @log.debug "@DEBUG L:#{__LINE__}   exiting..."
           break
-        elsif input == 'w'
+        elsif input == 'w' or input == Curses::Key::UP
           @log.debug "@DEBUG L:#{__LINE__}   'w' pressed..."
           case snake.orientation
           when :east
@@ -186,7 +186,7 @@ class Sandbox
             snake.turn_right  
           end
 
-        elsif input == 's'
+        elsif input == 's' or input == Curses::Key::DOWN
           @log.debug "@DEBUG L:#{__LINE__}   's' pressed..."
           case snake.orientation
           when :east
@@ -194,8 +194,8 @@ class Sandbox
           when :west
             snake.turn_left
           end
-          
-        elsif input == 'a'
+
+        elsif input == 'a' or input == Curses::Key::LEFT
           @log.debug "@DEBUG L:#{__LINE__}   'a' pressed..."
           case snake.orientation
           when :north
@@ -203,8 +203,8 @@ class Sandbox
           when :south
             snake.turn_right  
           end
-        
-        elsif input == 'd'
+
+        elsif input == 'd' or input == Curses::Key::RIGHT
           @log.debug "@DEBUG L:#{__LINE__}   'd' pressed..."
           case snake.orientation
           when :north
@@ -212,22 +212,30 @@ class Sandbox
           when :south
             snake.turn_left  
           end
-        elsif input == Curses::Key::LEFT
-          @log.debug "@DEBUG L:#{__LINE__}   Curses::Key::LEFT..."  
         else
           @log.debug "@DEBUG L:#{__LINE__}   unrecognized key #{input} pressed..."
-#          snake.move
         end
 
         snake.move
         win.setpos(snake.y_pos, snake.x_pos)
-        
-        
+
         if win.inch != 32
           @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
           exit
-        end  
-        
+        elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 2
+          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
+          exit
+        elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > win.maxx - 2
+          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
+          exit
+        elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > win.maxy - 2
+          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
+          exit
+        elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 2
+          @log.debug "@DEBUG L:#{__LINE__}   Crash!!!.."
+          exit
+        end
+
         win.addstr(SNAKE_CHAR)
         win.refresh
         
@@ -236,6 +244,6 @@ class Sandbox
 
     ensure
       Curses.close_screen
-    end    
+    end
   end
 end
