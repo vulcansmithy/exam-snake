@@ -156,6 +156,9 @@ class Sandbox
     Curses.start_color
     Curses.noecho
     
+    points = 0
+    delay  = 1.0
+    
     begin
       win = Curses.stdscr
       win.box("|", "-")
@@ -219,33 +222,28 @@ class Sandbox
         snake.move
         win.setpos(snake.y_pos, snake.x_pos)
 
-=begin
-        crash = if win.inch != 32
-            true
-          elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 1
-            true
-          elsif snake.orientation == Snake::FACING_EAST and snake.x_pos > win.maxx - 1
-            true
-          elsif snake.orientation == Snake::FACING_SOUTH and snake.y_pos > win.maxy - 1
-            true
-          elsif snake.orientation == Snake::FACING_WEST and snake.y_pos < 0 + 1
-            true
-          end
-=end
-        crash = snake_crashed?(snake, win)  
-        if crash
+        if snake_crashed?(snake, win)  
           @log.debug "@DEBUG L:#{__LINE__}   Snake crashed..."
           exit 
         end
 
         win.addstr(SNAKE_CHAR)
         win.refresh
+
+        sleep(delay)
+        if (points % 20) == 0
+          delay -= 0.10 if delay > 0.0
+        end
+        @log.debug "@DEBUG L:#{__LINE__}   delay=#{delay} points=#{points}"
+          
         
-        sleep(0.20)
+        # increase points
+        points += 1
       end 
 
     ensure
       Curses.close_screen
+      @log.debug "@DEBUG L:#{__LINE__}   points=#{points}"
     end
   end
   
