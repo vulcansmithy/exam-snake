@@ -1,3 +1,5 @@
+$VERBOSE = nil
+
 require "./sandbox.rb"
 require "./snake.rb"
 
