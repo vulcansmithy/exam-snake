@@ -230,11 +230,11 @@ class Sandbox
         win.addstr(SNAKE_CHAR)
         win.refresh
 
-        sleep(delay)
-        if (points % 20) == 0
-          delay -= 0.10 if delay > 0.0
-        end
         @log.debug "@DEBUG L:#{__LINE__}   delay=#{delay} points=#{points}"
+        sleep(delay)
+        if (points % 10) == 0
+          delay -= 0.10 if delay > 0.40
+        end
           
         
         # increase points
