@@ -21,6 +21,20 @@ $ ruby playground.rb
 
 
 
+## To play
+
+- Keys
+  - Go Left
+    - Keyboard Key **A**  (or **Left Arrow Key**)
+  - Go Up
+    - Keyboard Key **W** (or **Up Arrow Key**)
+  - Go Right
+    - Keyboard Key **D** (or **Right Arrow Key**)
+  - Go Down
+    - Keyboard key **S** (or **Down Arrow Key**)
+
+
+
 ## Existing bug
 
 - having issue with resizing the the Terminal window
