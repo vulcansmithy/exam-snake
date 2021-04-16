@@ -1,6 +1,6 @@
 $VERBOSE = nil
 
-require "./sandbox.rb"
+require "./playground.rb"
 require "./snake.rb"
 
 require "awesome_print"
@@ -8,9 +8,9 @@ require "curses"
 require "logger"
 
 # this enable this ruby script to be run from the command line
-Sandbox.new.main if __FILE__ == $PROGRAM_NAME
+Playground.new.main if __FILE__ == $PROGRAM_NAME
 
-class Sandbox
+class Playground
   
   SNAKE_CHAR = "#{0x2588.chr(Encoding::UTF_8)}"
   
