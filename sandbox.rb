@@ -157,8 +157,8 @@ class Sandbox
     Curses.noecho
     
     points = 0
-    delay  = 1.0
-    
+    delay  = 0.60
+     
     begin
       win = Curses.stdscr
       win.box("|", "-")
@@ -174,8 +174,13 @@ class Sandbox
       win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
       win.refresh
 
+      win.setpos(snake.y_pos, snake.x_pos + 10)
+      win.addstr("#{0x2588.chr(Encoding::UTF_8)}")
+      win.refresh
+
       input = nil    
       while true
+        
         crash = false
         input = win.getch
 
@@ -183,7 +188,6 @@ class Sandbox
           @log.debug "@DEBUG L:#{__LINE__}   exiting..."
           break
         elsif input == 'w' or input == Curses::Key::UP
-          @log.debug "@DEBUG L:#{__LINE__}   'w' pressed..."
           case snake.orientation
           when :east
             snake.turn_left
@@ -192,7 +196,6 @@ class Sandbox
           end
 
         elsif input == 's' or input == Curses::Key::DOWN
-          @log.debug "@DEBUG L:#{__LINE__}   's' pressed..."
           case snake.orientation
           when :east
             snake.turn_right
@@ -201,7 +204,6 @@ class Sandbox
           end
 
         elsif input == 'a' or input == Curses::Key::LEFT
-          @log.debug "@DEBUG L:#{__LINE__}   'a' pressed..."
           case snake.orientation
           when :north
             snake.turn_left
@@ -210,7 +212,6 @@ class Sandbox
           end
 
         elsif input == 'd' or input == Curses::Key::RIGHT
-          @log.debug "@DEBUG L:#{__LINE__}   'd' pressed..."
           case snake.orientation
           when :north
             snake.turn_right
@@ -221,33 +222,36 @@ class Sandbox
 
         snake.move
         win.setpos(snake.y_pos, snake.x_pos)
-
+        
         if snake_crashed?(snake, win)  
           @log.debug "@DEBUG L:#{__LINE__}   Snake crashed..."
           exit 
         end
 
-        win.addstr(SNAKE_CHAR)
-        win.refresh
-
-        @log.debug "@DEBUG L:#{__LINE__}   delay=#{delay} points=#{points}"
-        sleep(delay)
-        if (points % 10) == 0
-          delay -= 0.10 if delay > 0.40
-        end
-          
-        
         # increase points
         points += 1
+
+        sleep(delay)
+        if points % 10 == 0
+          delay -= 0.05 if delay > 0.20
+        end
+        
+        win.addstr(SNAKE_CHAR)
+        win.setpos(win.maxy - 1, 1)
+        win.addstr("  Points: #{points}  ")
+
+        win.refresh
       end 
 
     ensure
       Curses.close_screen
-      @log.debug "@DEBUG L:#{__LINE__}   points=#{points}"
     end
   end
   
   def snake_crashed?(snake, window)
+
+    @log.debug "@DEBUG L:#{__LINE__}   (window.inch).chr='#{(window.inch).chr}' #{window.inch}"
+
     result = if window.inch != 32
       true
     elsif snake.orientation == Snake::FACING_NORTH and snake.y_pos < 0 + 1
